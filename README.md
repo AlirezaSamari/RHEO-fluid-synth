@@ -73,9 +73,6 @@ Connect MIDI requests permission where Web MIDI is supported. Note velocity, CC6
 
 Extract the source ZIP fully and run `python run_local.py`. On Windows use `py run_local.py` or double-click `Start-RHEO.bat`; on macOS/Linux use `python3 run_local.py`. Open http://localhost:8000 and keep the terminal running. Use `--port 8001` if needed. Ctrl+C stops the server. Opening HTML via `file://` does not support module workers and AudioWorklet.
 
-## راهنمای سریع فارسی
-
-با Enable audio صدا را فعال کن و با کلیدهای A تا K بنواز. در Fluid Lab یکی از آزمایش‌های جفت گردابه، لایهٔ برشی یا تودهٔ گرم را انتخاب کن و یک نت را نگه دار. آزمایش‌ها در حالت «فقط شنیدن» باز می‌شوند تا نواختن، جریان را تغییر ندهد. در Listen to می‌توانی سرعت مماسی، ورتیسیته یا فشار را بشنوی. ویسکوزیته، شناوری و پخش حرارتی واقعاً وارد حل‌گر می‌شوند. ابزار Heat یا Cool دما را تغییر می‌دهد. این برنامه ساختار جریان را به صدا تبدیل می‌کند؛ موج صوتی واقعی آب را شبیه‌سازی نمی‌کند. Record صدای سینت را ضبط می‌کند؛ فایل WAV را پیش از بستن صفحه دانلود کن.
 
 ## Development and verification
 
