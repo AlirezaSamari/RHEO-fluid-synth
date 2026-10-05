@@ -1,0 +1,34 @@
+{
+  "version": "1.0.0",
+  "method": "Synthetic input blocks, no physical hardware",
+  "results": [
+    {
+      "name": "Guitar records with software monitoring disabled",
+      "pass": true
+    },
+    {
+      "name": "Input 2 selection does not accidentally record input 1",
+      "pass": true
+    },
+    {
+      "name": "Stereo input routing preserves separate channels",
+      "pass": true
+    },
+    {
+      "name": "Guitar-only and synth-only recordings isolate the requested source",
+      "pass": true
+    },
+    {
+      "name": "Optional monitoring fades in while bounded stereo mix is captured",
+      "pass": true
+    },
+    {
+      "name": "Hardware clipping is metered and silent disconnection stays finite",
+      "pass": true
+    },
+    {
+      "name": "Actual worklet captures guitar without sending it to the speakers",
+      "pass": true
+    }
+  ]
+}

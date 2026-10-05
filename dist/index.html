@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101619">
+  <meta name="author" content="AlirezaSamari">
+  <meta name="description" content="Play a living fluid. RHEO is an experimental synthesizer with a 2D fluid simulation and moving pickup loops.">
+  <title>RHEO 1.1 — Fluid Instrument</title>
+  <link rel="icon" href="./icon.svg" type="image/svg+xml"><link rel="stylesheet" href="./style.css">
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <a class="brand" href="./" aria-label="Rheo home"><svg viewBox="0 0 44 44" aria-hidden="true"><path d="M8 24C8 9 35 5 36 20S8 37 8 24Zm6 0c0-9 15-13 16-4s-16 13-16 4Z"/></svg><span>RHEO<small>FLUID INSTRUMENT</small></span></a>
+    <div class="header-center"><span class="status-dot"></span>FLUID INSTRUMENT<span class="version">v1.1</span></div>
+    <button class="text-button" id="guideBtn">How to play <span>↗</span></button>
+  </header>
+  <main>
+    <div class="intro"><div><p class="eyebrow">SOUND IN MOTION</p><h1>Play the current.</h1><p class="subtitle">Excite a fluid. Follow its motion. Hear its structure.</p></div><div class="transport"><button id="audioBtn" class="primary"><span>◉</span> Enable audio</button><button id="demoBtn" class="button">▷ Play demo</button><button id="recordBtn" class="button record" disabled aria-label="Record audio as WAV"><span class="rec-dot"></span> Record</button></div></div>
+    <div id="message" class="message" role="status" hidden></div>
+    <section class="instrument" aria-label="Fluid instrument">
+      <div class="field-panel">
+        <div class="panel-top"><div class="panel-label"><span class="tiny-dot"></span> FLOW FIELD <span class="muted">/ 2D</span></div><div class="field-tools"><button id="freezeBtn" class="small-button" aria-pressed="false">Ⅱ Freeze</button><button id="resetBtn" class="small-button">↻ Clear flow</button></div></div>
+        <div class="field-settings"><label>See the fluid<select id="fieldView"><option value="vorticity">Vorticity · ω</option><option value="tracers">Dye &amp; tracers</option><option value="pressure">Pressure · p</option><option value="temperature">Temperature · θ</option><option value="speed">Speed · |u|</option></select></label><label>Touch the field<select id="fieldTool"><option value="stir">Stir · momentum</option><option value="heat">Heat · rising plume</option><option value="cool">Cool · sinking plume</option></select></label></div>
+        <div class="field-wrap" id="fieldWrap">
+          <canvas id="field" aria-label="Fluid field. Drag to stir the flow while playing notes." tabindex="0"></canvas>
+          <div class="field-caption"><span class="caption-line"></span>PERIODIC DOMAIN · L = 1 · y ↓</div>
+          <div class="field-label"><span id="motionLabel">LAGRANGIAN</span><br><strong>LISTENING LOOPS</strong></div>
+          <div class="field-scale"><span id="fieldMax">+ω</span><i id="fieldLegend"></i><span id="fieldMin">−ω</span></div>
+          <div class="empty-hint" id="emptyHint"><span>Give the fluid a note.</span><small>Enable audio, then play your keyboard or try the demo.</small></div>
+        </div>
+        <div class="field-footer"><span><i class="live-dot"></i> <span id="flowState">FLOWING</span></span><span id="voiceCount">0 / 8 VOICES</span><span id="simTime">00:00</span><span id="cost">SOLVER WARMING UP</span></div>
+        <div class="field-note"><span id="fieldDescription">Vorticity: local rotation. Orange turns clockwise; mint turns counterclockwise.</span><small id="fieldRange">AUTO COLOR SCALE · DIMENSIONLESS</small></div>
+        <div class="measurements" aria-label="Live fluid measurements">
+          <div title="U_rms L / ν, with box length L = 1. A scale estimate, not a turbulence classifier."><span>REYNOLDS · Re<sub>L</sub></span><strong id="reynoldsValue">0</strong><small>Inertia / viscosity</small></div>
+          <div title="Mean kinetic energy per unit mass: ½ ⟨u² + v²⟩."><span>KINETIC ENERGY · E</span><strong id="energyValue">0.0000</strong><small>Motion in the fluid</small></div>
+          <div title="Mean squared vorticity: ½ ⟨ω²⟩."><span>ENSTROPHY · Z</span><strong id="enstrophyValue">0.0000</strong><small>Intensity of rotation</small></div>
+          <div title="RMS divergence after pressure projection. Closer to zero means better incompressibility."><span>DIVERGENCE · RMS</span><strong id="divergenceValue">0.0e+0</strong><small>Incompressibility error</small></div>
+          <div title="max(|u| + |v|) Δt / Δx, using cell-centered velocities. Values above 1 signal coarse advection accuracy."><span>COURANT · CFL</span><strong id="cflValue">0.000</strong><small>Travel per solver step</small></div>
+          <div title="Prandtl number ν / κ: momentum diffusivity divided by thermal diffusivity."><span>PRANDTL · Pr</span><strong id="prandtlValue">1.50</strong><small>Momentum / heat diffusion</small></div>
+        </div>
+      </div>
+      <aside class="controls">
+        <div class="panel-top"><div class="panel-label">SOUND PALETTE</div><span class="muted">8 + YOUR SOUNDS</span></div>
+        <label class="preset-label" for="preset">Starting point</label><select id="preset"><option value="glass">01 · Glass current</option><option value="deep">02 · Deep eddy</option><option value="silk">03 · Silk drift</option><option value="wild">04 · Wild water</option></select><div class="patch-actions"><button id="savePatchBtn" class="small-button">Save sound</button><button id="exportPatchBtn" class="small-button">Export</button><button id="importPatchBtn" class="small-button">Import</button></div><input id="patchFile" type="file" accept=".json,application/json" hidden>
+        <div class="control-section"><h2><span>01</span> Fluid</h2>
+          <label class="select-control" for="excite">When you play<select id="excite"><option value="1">Excite fluid + listen</option><option value="0">Listen to existing flow</option></select></label>
+          <label class="control"><span>Viscosity ν <output id="viscosityOut"></output></span><input id="viscosity" type="range" min="0" max="100" value="42"><small>Momentum diffusion · dimensionless</small></label>
+          <label class="control"><span>Drag time τ <output id="memoryOut"></output></span><input id="memory" type="range" min="0.5" max="16" step="0.1" value="5"><small>Longer τ → slower momentum decay</small></label>
+          <label class="control"><span>Vortex impulse <output id="forceOut"></output></span><input id="force" type="range" min="0.15" max="1.6" step="0.01" value="0.7"></label>
+        </div>
+        <div class="control-section"><h2><span>02</span> Listening probe</h2>
+          <label class="select-control" for="pickup">Listen to<select id="pickup"><option value="0">Tangential velocity · u · t</option><option value="1">Vorticity · ∇ × u</option><option value="2">Pressure · p</option></select></label>
+          <p id="pickupDescription" class="probe-description">Velocity around the loop shapes each cycle of the sound.</p>
+          <label class="select-control" for="probeMotion">Probe motion<select id="probeMotion"><option value="1">Lagrangian · follows the flow</option><option value="0">Eulerian · fixed in space</option></select></label>
+          <label class="control"><span>Fluid voice <output id="flowOut"></output></span><input id="flow" type="range" min="0" max="1" step="0.01" value="0.85"><small>Pitch anchor ↔ pure flow waveform</small></label>
+          <label class="control"><span>Brightness <output id="brightnessOut"></output></span><input id="brightness" type="range" min="0" max="1" step="0.01" value="0.68"></label>
+          <div class="two-controls"><label class="control"><span>Attack <output id="attackOut"></output></span><input id="attack" type="range" min="0.005" max="0.5" step="0.005" value="0.045"></label><label class="control"><span>Release <output id="releaseOut"></output></span><input id="release" type="range" min="0.1" max="4" step="0.1" value="1.4"></label></div>
+        </div>
+        <div class="output-control"><label class="control"><span>Synth level <output id="volumeOut"></output></span><input id="volume" type="range" min="0" max="1" step="0.01" value="0.65"></label><div class="meter"><i id="meterFill"></i></div><div class="output-caption"><span>STEREO OUTPUT</span><span id="audioStatus">AUDIO OFF</span></div></div>
+      </aside>
+    </section>
+    <section class="performance-rack" aria-label="Effects and performance controls">
+      <div class="rack-title"><span class="panel-label">PERFORMANCE</span><small>Shape the space around your flow.</small></div>
+      <label class="control"><span>Echo <output id="echoOut"></output></span><input id="echo" type="range" min="0" max="0.65" step="0.01" value="0.14"><small>Stereo · dotted eighth</small></label>
+      <label class="control"><span>Space <output id="spaceOut"></output></span><input id="space" type="range" min="0" max="0.7" step="0.01" value="0.2"><small>Diffuse reverb</small></label>
+      <label class="control"><span>Tempo <output id="tempoOut"></output></span><input id="tempo" type="range" min="60" max="160" step="1" value="100"><small>Demo & echo clock</small></label>
+      <div class="midi-control"><button id="midiBtn" class="button">Connect MIDI</button><small id="midiStatus">Computer keyboard & touch ready</small></div>
+    </section>
+    <section class="play-panel" aria-label="Keyboard and waveform">
+      <div class="keyboard-panel"><div class="keyboard-top"><div class="panel-label">PLAY <span class="muted">/ COMPUTER KEYBOARD OR TOUCH</span></div><div class="octave"><button id="octDown" aria-label="Octave down">−</button><span id="octLabel">OCT 3</span><button id="octUp" aria-label="Octave up">+</button></div></div><div id="keyboard" class="keyboard" aria-label="Piano keyboard"></div><div class="keyboard-foot"><button id="sustainBtn" class="small-button" aria-pressed="false">Sustain <span>SPACE</span></button><button id="panicBtn" class="text-button">Release all <span>ESC</span></button></div></div>
+      <div class="scope-panel"><div class="panel-label">OUTPUT <span class="muted">/ WAVEFORM</span></div><canvas id="scope" aria-label="Live audio waveform"></canvas><div class="scope-foot"><span id="noteLabel">WAITING FOR A NOTE</span><span id="energyLabel">E 0.0000</span></div></div>
+    </section>
+    <section class="fluid-lab" aria-label="Fluid dynamics laboratory">
+      <div class="lab-heading"><div><p class="eyebrow">THE FLUID LAB</p><h2>Hear the physics change.</h2></div><span class="lab-badge">2D · INCOMPRESSIBLE · THERMAL</span></div>
+      <div class="lab-controls">
+        <label class="control"><span>Buoyancy B <output id="buoyancyOut"></output></span><input id="buoyancy" type="range" min="0" max="2" step="0.01" value="0.45"><small>Warm regions rise; cooler regions return.</small></label>
+        <label class="control"><span>Heat per note <output id="heatOut"></output></span><input id="heat" type="range" min="0" max="1.5" step="0.01" value="0.3"><small>Temperature impulse when a new note starts.</small></label>
+        <label class="control"><span>Thermal diffusion κ <output id="diffusivityOut"></output></span><input id="diffusivity" type="range" min="0" max="100" step="1" value="52"><small>How quickly temperature gradients spread.</small></label>
+      </div>
+      <div class="experiment-row"><span class="panel-label">LOAD AN EXPERIMENT</span><div><button id="vortexExperiment" class="button">01 · Vortex pair</button><button id="shearExperiment" class="button">02 · Shear layer</button><button id="plumeExperiment" class="button">03 · Thermal plume</button></div></div>
+      <p id="experimentDescription" class="experiment-description">Experiments replace the flow and load a listening setup. Then hold a note to listen, or run the demo.</p>
+      <div class="bridge-header"><span class="panel-label">FROM FLOW TO SOUND</span><span id="probeNote">HOLD A NOTE TO INSPECT ITS PROBE</span></div>
+      <div class="bridge-flow"><span id="bridgeSource">u · t</span><i>→</i><span>sample a loop</span><i>→</i><span>spatial harmonics</span><i>→</i><span>play at note frequency</span></div>
+      <div class="probe-plots">
+        <div><div class="plot-title"><span>PROBE SIGNAL · AUTO SCALE</span><span id="probeRms">RMS —</span></div><canvas id="probeScope" aria-label="Measured fluid signal around the selected pickup loop"></canvas><div class="plot-caption"><span>0</span><span>Normalized distance around the loop</span><span>1</span></div></div>
+        <div><div class="plot-title"><span>VOICED HARMONICS · AUTO SCALE</span><span>1 → 32</span></div><canvas id="harmonicScope" aria-label="Harmonic amplitudes of the selected voice after tone shaping and pitch anchor"></canvas><div class="plot-caption"><span id="circulationValue">Circulation Γ —</span><span id="perimeterValue">Loop length —</span></div></div>
+      </div>
+      <p class="bridge-explanation">Small structures along the loop create higher spatial harmonics. Viscosity and heat transport change those structures; your note sets their playback frequency. Circulation is measured separately—the loop’s mean signal is removed from the audio.</p>
+      <details class="physics-details"><summary>The equations behind what you hear</summary>
+        <div class="equation">∂u/∂t + (u · ∇)u = −∇p + ν∇²u − u/τ − B(θ − ⟨θ⟩)e<sub>y</sub> + f<br>∇ · u = 0<br>∂θ/∂t + u · ∇θ = κ∇²θ − θ/8 + Q</div>
+        <p>A unit square with periodic edges: flow leaving one side returns on the other. Velocity, pressure and temperature use dimensionless model units; screen y points downward. Notes add momentum and heat impulses. A pressure solve enforces incompressibility. Heat moves with the flow, diffuses, and relaxes toward zero with an 8-unit decay time.</p>
+        <p>The Reynolds number uses box length L = 1 and RMS speed; it is not a claim that turbulence is resolved. The 48 × 48 grid and semi-Lagrangian interpolation add numerical diffusion. These are approximate two-dimensional flows, with no free water surface or three-dimensional vortex stretching.</p>
+        <p>Pressure here is the incompressibility pressure, not an acoustic pressure wave. RHEO sonifies measured spatial structure using up to 32 harmonics. Musical pitch, envelope, tone shaping, normalization and effects are deliberate synthesis choices. Probe gains are 1 for velocity, 0.085 for vorticity and 1/0.7 for pressure before bounded normalization.</p>
+        <p>Methods: <a href="https://www.dgp.toronto.edu/people/stam/reality/Research/pdf/ns.pdf" target="_blank" rel="noopener noreferrer">Stam, Stable Fluids (1999) ↗</a> · <a href="https://graphics.stanford.edu/papers/smoke/smoke.pdf" target="_blank" rel="noopener noreferrer">Fedkiw, Stam &amp; Jensen, Visual Simulation of Smoke (2001) ↗</a>. RHEO uses thermal buoyancy and a pressure projection, with no artificial vorticity-confinement force.</p>
+      </details>
+    </section>
+    <section id="takesPanel" class="takes-panel" aria-label="Recorded takes" hidden><div class="takes-heading"><span class="panel-label">YOUR TAKES</span><small>Last three takes · download to keep them after closing this page</small></div><div id="takesList"></div></section>
+    <address class="creator-contact"><span>PROJECT &amp; CONTACT <strong>AlirezaSamari</strong></span><div><a href="https://github.com/AlirezaSamari" target="_blank" rel="noopener noreferrer">GitHub · AlirezaSamari ↗</a><a href="mailto:alirexasamari@gmail.com">alirexasamari@gmail.com ↗</a></div></address>
+    <footer><span>A fluid you can hear.</span><div><button class="text-button" id="aboutBtn">Inside the instrument</button><button class="text-button" id="statusBtn">Engine status</button><span class="footer-separator">/</span><a href="./rheo-source.zip" download>Download source ↗</a></div><span class="footer-right">RHEO · RELEASE 1.1</span></footer>
+  </main>
+</div>
+<dialog id="guide"><button id="closeGuide" class="dialog-close" aria-label="Close guide">×</button><p class="eyebrow">RHEO 1.1 · A SMALL GUIDE</p><h2>The flow is part of the instrument.</h2>
+<p class="project-contact">Project contact: <a href="https://github.com/AlirezaSamari" target="_blank" rel="noopener noreferrer">AlirezaSamari on GitHub ↗</a> · <a href="mailto:alirexasamari@gmail.com">alirexasamari@gmail.com</a></p>
+<p>Enable audio, then hold <b>A S D F G H J K</b> for the white keys. <b>W E T Y U</b> play the black keys. Drag across the field to bend the timbre. <b>Z / X</b> change octave; hold <b>Space</b> for sustain or click Sustain to latch it. <b>Esc</b> releases all notes and clears effect tails.</p>
+<p><b>Play demo</b> starts a repeating phrase. <b>Freeze</b> holds the fluid evolution; you can still inject energy. <b>Clear flow</b> releases notes and empties the fluid. A longer Drag time lets earlier notes influence later ones for longer. Fluid voice at 100% removes the sine pitch anchor.</p>
+<p><b>Save sound</b> stores settings in this browser. Export/import carries a sound between devices as JSON. Settings restore automatically when available; the evolving fluid field itself is not saved.</p>
+<p><b>Connect MIDI</b> enables supported hardware inputs, with velocity, sustain (CC64), ±2 semitone pitch bend and mod-wheel vibrato (CC1). MIDI availability depends on the browser and its permissions. Computer keys and touch do not require MIDI.</p>
+<p><b>Record</b> captures the stereo synth output with effects for up to two minutes. Stop, listen to your take, then download the WAV. The last three takes stay on this page until it is closed or reloaded.</p>
+<p><b>The Fluid Lab</b> lets you seed a vortex pair, a periodic shear layer, or a thermal plume. Select a field view to see actual vorticity, pressure, temperature or speed. Heat and Cool tools add temperature impulses. Buoyancy converts temperature differences into motion. Listen to velocity, vorticity or pressure with a moving Lagrangian loop or a fixed Eulerian loop. The two probe plots show how a spatial signal becomes a musical spectrum.</p>
+<p>Reference take · rendered with this same engine:</p><audio controls preload="none" src="./rheo-demo.wav" style="width:100%"></audio>
+<details><summary>Inside the instrument</summary><p>A 48 × 48 periodic MAC grid solves 2D incompressible flow with RK2 semi-Lagrangian advection, explicit momentum/thermal diffusion and a residual-controlled conjugate-gradient pressure solve. A bounded fixed-step clock targets 120 updates/s. Actual rate and dropped catch-up steps appear in Engine status.</p><p>Each note adds a discrete divergence-free vortex pair, a heat impulse, and a 96-point pickup loop. Moving loops follow the flow and are remeshed by arc length; fixed loops remain in space. Velocity, vorticity or pressure is sampled at uniform distances around the loop to form a waveform with up to 32 harmonics. An AudioWorklet scans smoothed tables at note frequency. Eight active voices have short extra fade tails during voice stealing. Pitch-bend headroom is included in the harmonic cutoff.</p><p>The fluid model drives musical synthesis; it does not simulate real acoustic water pressure. Numerical diffusion affects timbre, and time-varying modulation is not completely alias-free. This release runs in a browser or on localhost; it is not a VST/AU plug-in.</p><p>The numerical, DSP, message and file-format checks are automated. Interactive browser playback and physical MIDI hardware have not been verified in the build environment.</p></details></dialog>
+<dialog id="patchDialog"><p class="eyebrow">YOUR SOUND PALETTE</p><h2>Keep this current.</h2><form id="patchForm"><label for="patchName">Sound name</label><input id="patchName" type="text" maxlength="48" required autocomplete="off"><p id="patchError" class="form-error" role="alert"></p><p class="muted-copy">Saving an existing name replaces its settings. Export JSON for a portable backup.</p><div class="dialog-actions"><button id="cancelPatch" class="button" type="button">Cancel</button><button class="primary" type="submit">Save sound</button></div></form></dialog>
+<dialog id="statusDialog"><button id="closeStatus" class="dialog-close" aria-label="Close engine status">×</button><p class="eyebrow">ENGINE STATUS</p><h2>Under the surface.</h2><dl id="diagnosticRows"></dl><p class="muted-copy">Latency is the browser's reported base latency, not a measured round trip. If audio or the field stops, restart below; your settings stay in place.</p><button id="restartBtn" class="button">Restart engine</button></dialog>
+<script type="module" src="./app.mjs"></script>
+</body></html>

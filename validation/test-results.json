@@ -1,0 +1,118 @@
+{
+  "date": "2026-10-04T10:20:36.071Z",
+  "results": [
+    {
+      "name": "Rest remains at rest",
+      "pass": true,
+      "ms": 46
+    },
+    {
+      "name": "Uniform periodic flow is preserved with expected drag",
+      "pass": true,
+      "ms": 113.9,
+      "relativeError": 2.894895263154603e-7
+    },
+    {
+      "name": "Projection reduces divergence and kinetic energy",
+      "pass": true,
+      "ms": 7.5,
+      "divergenceBefore": 0.8332652943644908,
+      "divergenceAfter": 7.62338249979251e-7,
+      "ratio": 9.148805970140231e-7
+    },
+    {
+      "name": "Lagrangian loop follows a uniform field",
+      "pass": true,
+      "ms": 0.5
+    },
+    {
+      "name": "Frozen field still retires released pickup loops",
+      "pass": true,
+      "ms": 3.3
+    },
+    {
+      "name": "Vortices change the waveform over time",
+      "pass": true,
+      "ms": 214.9,
+      "waveformRms": 0.4882706803870433,
+      "changeRms": 0.843970100476604
+    },
+    {
+      "name": "Prior notes leave a measurable fluid memory",
+      "pass": true,
+      "ms": 370.6,
+      "waveformDifferenceRms": 0.15890249548163993
+    },
+    {
+      "name": "Harmonic cutoff respects the selected audio bandwidth",
+      "pass": true,
+      "ms": 6.3,
+      "outOfBandEnergyRatio": 1.4626021902891338e-16
+    },
+    {
+      "name": "High-force, high-viscosity stress remains finite",
+      "pass": true,
+      "ms": 714.5,
+      "maxEnergy": 0.1423363384653868,
+      "finalDivergence": 3.8771391508672737e-7
+    },
+    {
+      "name": "Numerical dissipation at rest after excitation",
+      "pass": true,
+      "ms": 528.5,
+      "initialEnergy": 0.007209092855212461,
+      "finalEnergy": 0.0007969395146165518
+    },
+    {
+      "name": "Audio is silent before notes and pitched at A4",
+      "pass": true,
+      "ms": 25.5,
+      "measuredHz": 440,
+      "rms": 0.08220786358465386,
+      "peak": 0.11801555007696152
+    },
+    {
+      "name": "Changing wavetables does not reset oscillator phase",
+      "pass": true,
+      "ms": 1.2
+    },
+    {
+      "name": "Polyphony, clipping guard and note release",
+      "pass": true,
+      "ms": 59.7,
+      "peak": 0.72390216588974,
+      "maxAdjacentJump": 0.03001067042350769
+    },
+    {
+      "name": "Eight voices are retained after voice stealing fades",
+      "pass": true,
+      "ms": 33.1,
+      "voices": 8
+    },
+    {
+      "name": "Engine throughput at target simulation rate",
+      "pass": true,
+      "ms": 448.2,
+      "wallMilliseconds": 445.7,
+      "simulatedMilliseconds": 1500,
+      "realtimeFactor": 3.37,
+      "environment": "execution container; browser performance not measured"
+    },
+    {
+      "name": "AudioWorklet records complete stereo frames and finalizes",
+      "pass": true,
+      "ms": 5.6,
+      "recordedStereoFrames": 10240
+    },
+    {
+      "name": "Recording auto-stops at the two-minute limit",
+      "pass": true,
+      "ms": 0.2
+    },
+    {
+      "name": "Simulation worker supplies sound tables and a matching field snapshot",
+      "pass": true,
+      "ms": 11.2
+    }
+  ]
+}

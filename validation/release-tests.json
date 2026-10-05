@@ -1,0 +1,80 @@
+{
+  "version": "1.1.0",
+  "date": "2026-10-04T10:20:38.847Z",
+  "results": [
+    {
+      "name": "Quick release cancels a pending async note start",
+      "pass": true
+    },
+    {
+      "name": "Old async completions cannot start a newer keypress",
+      "pass": true
+    },
+    {
+      "name": "Sustain holds only its own channel and releases correctly",
+      "pass": true
+    },
+    {
+      "name": "Same note can retrigger while a prior voice is sustained",
+      "pass": true
+    },
+    {
+      "name": "MIDI notes, zero-velocity off, bend and sustain decode",
+      "pass": true
+    },
+    {
+      "name": "Patches round-trip all parameters and reject invalid input",
+      "pass": true
+    },
+    {
+      "name": "Parameters clamp finite input without spreading unknown keys",
+      "pass": true
+    },
+    {
+      "name": "Fixed clock gives 120 steps per second despite timer jitter",
+      "pass": true
+    },
+    {
+      "name": "Fixed clock bounds catch-up work after a stalled tab",
+      "pass": true
+    },
+    {
+      "name": "WAV headers, stereo ordering and full-scale PCM endpoints",
+      "pass": true
+    },
+    {
+      "name": "Pitch bend settles to two semitones without resetting phase",
+      "pass": true
+    },
+    {
+      "name": "Echo/reverb remain finite at maximum settings and decay",
+      "pass": true,
+      "peak": 0.8439881801605225,
+      "lateToEarlyEnergy": 2.7903172874361995e-22
+    },
+    {
+      "name": "Emergency release also clears effect delay lines",
+      "pass": true
+    },
+    {
+      "name": "Dry synthesis works at 44.1, 48 and 96 kHz",
+      "pass": true
+    },
+    {
+      "name": "Invalid notes and malformed waveforms cannot poison audio",
+      "pass": true
+    },
+    {
+      "name": "All eight factory scenes render finite, non-silent fluid audio",
+      "pass": true,
+      "glass": 3.527,
+      "deep": 12.787,
+      "silk": 0.302,
+      "wild": 26.931,
+      "bells": 10.152,
+      "pure": 18.051,
+      "plume": 2.916,
+      "shear": 28.902
+    }
+  ]
+}

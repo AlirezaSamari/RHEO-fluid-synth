@@ -1,0 +1,17 @@
+{
+  "name": "rheo-fluid-synth",
+  "version": "1.1.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "test": "node tests/verify.mjs && node tests/physics.mjs && node tests/release.mjs && node tests/app-smoke.mjs",
+    "demo": "node tests/render-demo.mjs",
+    "serve": "python3 -m http.server 8000 --directory dist",
+    "package": "python3 package_release.py"
+  },
+  "author": {
+    "name": "AlirezaSamari",
+    "email": "alirexasamari@gmail.com",
+    "url": "https://github.com/AlirezaSamari"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "version": "1.1.0",
+  "method": "Node DOM/audio/worker stand-ins; not a real browser",
+  "results": [
+    {
+      "name": "Application initializes every control and its eight-scene palette",
+      "pass": true
+    },
+    {
+      "name": "Enable audio and keyboard note on/off reach both engines",
+      "pass": true
+    },
+    {
+      "name": "Sustain button holds a keyboard voice until released",
+      "pass": true
+    },
+    {
+      "name": "Preset selection and named save persist a sound safely",
+      "pass": true
+    },
+    {
+      "name": "Export creates a downloadable patch without remote calls",
+      "pass": true
+    },
+    {
+      "name": "Malformed patch import reports an error without applying it",
+      "pass": true
+    },
+    {
+      "name": "Recording produces an audition player and persistent download link",
+      "pass": true
+    },
+    {
+      "name": "MIDI connection, channel input and disconnect reach the engine",
+      "pass": true
+    },
+    {
+      "name": "Synth has no input controls and never requests microphone access",
+      "pass": true
+    },
+    {
+      "name": "Physical probe controls reach the solver and update their explanation",
+      "pass": true
+    },
+    {
+      "name": "Thermal experiment configures listening-only and supplies its initial condition",
+      "pass": true
+    },
+    {
+      "name": "Heat and cool gestures send signed thermal impulses",
+      "pass": true
+    },
+    {
+      "name": "Real fluid snapshots populate measurements and both probe plots",
+      "pass": true
+    },
+    {
+      "name": "Engine diagnostics and restart keep sound settings",
+      "pass": true
+    }
+  ]
+}

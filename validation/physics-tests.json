@@ -1,0 +1,95 @@
+{
+  "version": "1.1.0",
+  "date": "2026-10-04T10:20:37.524Z",
+  "results": [
+    {
+      "name": "Discrete vortex impulse has negligible divergence and net vorticity",
+      "pass": true,
+      "divergenceRms": 2.2004569565755532e-7
+    },
+    {
+      "name": "Pressure projection removes a periodic gradient to solver tolerance",
+      "pass": true,
+      "relativeDivergence": 7.605897104469241e-7,
+      "remainingEnergy": 6.715792089411289e-15
+    },
+    {
+      "name": "Sinusoidal shear decays at the discrete viscous rate plus exact drag",
+      "pass": true,
+      "modes": [
+        {
+          "mode": 1,
+          "attenuation": 0.777820385052652,
+          "error": 8.196179666265999e-8
+        },
+        {
+          "mode": 6,
+          "attenuation": 0.13980582608324355,
+          "error": 3.01474519351023e-8
+        }
+      ]
+    },
+    {
+      "name": "Thermal Fourier mode follows diffusion and cooling without creating motion at B=0",
+      "pass": true,
+      "rmsError": 1.9342363152360818e-8,
+      "attenuation": 0.6210915650274401
+    },
+    {
+      "name": "Uniform temperature has no buoyant acceleration in the mean-relative model",
+      "pass": true
+    },
+    {
+      "name": "Hot and cold impulses produce upward and downward local flow",
+      "pass": true,
+      "warmVerticalVelocity": -0.262500810623169,
+      "coolVerticalVelocity": 0.26255784034729
+    },
+    {
+      "name": "Taylor–Green vortex approaches analytic viscous decay with grid refinement",
+      "pass": true,
+      "relativeError24": 0.03775186593035681,
+      "relativeError48": 0.019427095796606546
+    },
+    {
+      "name": "Curl and loop circulation agree with solid-body rotation",
+      "pass": true,
+      "circulation": 0.03132256912371958,
+      "analytic": 0.031337386719558186
+    },
+    {
+      "name": "Fixed probes stay put; moving probes follow transport",
+      "pass": true
+    },
+    {
+      "name": "Listen-only notes leave the existing flow and temperature undisturbed",
+      "pass": true
+    },
+    {
+      "name": "All three measured probe signals produce distinct finite DC-free voices",
+      "pass": true,
+      "waveformDifferences": [
+        0.4688679024363106,
+        0.6555327630885299
+      ]
+    },
+    {
+      "name": "Measured pressure is invariant to a constant pressure gauge offset",
+      "pass": true
+    },
+    {
+      "name": "Live dimensionless diagnostics obey their definitions",
+      "pass": true
+    },
+    {
+      "name": "Thermal stress remains finite without silently clipping velocity",
+      "pass": true,
+      "energy": 0.2949958216072488,
+      "divergence": 0.0000013357769742694055
+    },
+    {
+      "name": "Legacy patches migrate without adding heat or changing probe mode",
+      "pass": true
+    }
+  ]
+}
