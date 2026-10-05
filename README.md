@@ -73,11 +73,3 @@ Connect MIDI requests permission where Web MIDI is supported. Note velocity, CC6
 
 Extract the source ZIP fully and run `python run_local.py`. On Windows use `py run_local.py` or double-click `Start-RHEO.bat`; on macOS/Linux use `python3 run_local.py`. Open http://localhost:8000 and keep the terminal running. Use `--port 8001` if needed. Ctrl+C stops the server. Opening HTML via `file://` does not support module workers and AudioWorklet.
 
-
-## Development and verification
-
-Run `npm test`, `npm run demo`, then `npm run package`. Node is needed only for developer checks; Python packages the portable release. Reports are included in `validation/`, and the reference WAV is rendered by the same fluid/DSP engine.
-
-Analytic checks cover viscous shear decay, thermal Fourier decay, buoyant direction, pressure-gradient removal, solid-body circulation, Taylor–Green decay with grid refinement, momentum preservation, diagnostics and all three probe modes. Integration checks cover synthesis, MIDI state, timing, WAV recording, patches, actual worker/worklet protocols, and UI wiring. UI tests use explicit Node DOM/audio/worker stand-ins, **not a real browser**. Interactive browser rendering, subjective listening and physical MIDI hardware are unverified in the build environment.
-
-Source map: `dist/fluid.mjs` (solver/probes), `dsp.mjs` (audio engine), `audio-worklet.mjs` (synthesis/recording), `simulation-worker.mjs` (simulation transport), `performance.mjs` (timing/MIDI state), `config.mjs` (patches), `wav.mjs` (WAV encoding), and `app.mjs`, `index.html`, `style.css` (UI and visualization).
