@@ -1,5 +1,5 @@
 # RHEO 1.1 — Fluid Instrument
-
+## [Open the App](https://alirezasamari.github.io/RHEO-fluid-synth/dist/)
 A browser synthesizer that turns measured spatial structure in a two-dimensional fluid into musical waveforms. Runs on its hosted HTTPS page or on localhost. It uses no audio samples, remote audio processing, or third-party JavaScript runtime libraries.
 
 Project contact: [AlirezaSamari on GitHub](https://github.com/AlirezaSamari) · [alirexasamari@gmail.com](mailto:alirexasamari@gmail.com).
